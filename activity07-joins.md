@@ -7,6 +7,10 @@ Hudson Ruhlig
 Load the entirety of the `{tidyverse}`. Be sure to avoid printing out
 any unnecessary information and give the code chunk a meaningful name.
 
+``` r
+library(tidyverse)
+```
+
 In this activity we will explore joining information that is contained
 in multiple data files. We will also explore ways of visualizing spatial
 data.
@@ -33,6 +37,12 @@ name (e.g., `dennys`,`laquinta`, and `states`), be sure to avoid
 printing any unnecessary information. Give your code chunk a meaningful
 name.
 
+``` r
+dennys <- readr::read_csv("data/dennys.csv")
+laquinta <- readr::read_csv("data/laquinta.csv")
+states <- readr::read_csv("data/states.csv")
+```
+
 ### Provide more information
 
 `class`, `str`, `nrow`, `ncol`, and `names` are extremely helpful
@@ -55,49 +65,88 @@ column in the partially started data dictionary tables below.
 str(dennys)
 ```
 
-    ## Error in str(dennys): object 'dennys' not found
+    ## spec_tbl_df [1,643 × 6] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ address  : chr [1:1643] "2900 Denali" "3850 Debarr Road" "1929 Airport Way" "230 Connector Dr" ...
+    ##  $ city     : chr [1:1643] "Anchorage" "Anchorage" "Fairbanks" "Auburn" ...
+    ##  $ state    : chr [1:1643] "AK" "AK" "AK" "AL" ...
+    ##  $ zip      : chr [1:1643] "99503" "99508" "99701" "36849" ...
+    ##  $ longitude: num [1:1643] -149.9 -149.8 -147.8 -85.5 -86.8 ...
+    ##  $ latitude : num [1:1643] 61.2 61.2 64.8 32.6 33.6 ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   address = col_character(),
+    ##   ..   city = col_character(),
+    ##   ..   state = col_character(),
+    ##   ..   zip = col_character(),
+    ##   ..   longitude = col_double(),
+    ##   ..   latitude = col_double()
+    ##   .. )
 
 ``` r
 str(laquinta)
 ```
 
-    ## Error in str(laquinta): object 'laquinta' not found
+    ## spec_tbl_df [909 × 6] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ address  : chr [1:909] "793 W. Bel Air Avenue" "3018 CatClaw Dr" "3501 West Lake Rd" "184 North Point Way" ...
+    ##  $ city     : chr [1:909] "\nAberdeen" "\nAbilene" "\nAbilene" "\nAcworth" ...
+    ##  $ state    : chr [1:909] "MD" "TX" "TX" "GA" ...
+    ##  $ zip      : chr [1:909] "21001" "79606" "79601" "30102" ...
+    ##  $ longitude: num [1:909] -76.2 -99.8 -99.7 -84.7 -96.6 ...
+    ##  $ latitude : num [1:909] 39.5 32.4 32.5 34.1 34.8 ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   address = col_character(),
+    ##   ..   city = col_character(),
+    ##   ..   state = col_character(),
+    ##   ..   zip = col_character(),
+    ##   ..   longitude = col_double(),
+    ##   ..   latitude = col_double()
+    ##   .. )
 
 ``` r
 str(states)
 ```
 
-    ## Error in str(states): object 'states' not found
+    ## spec_tbl_df [51 × 3] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ name        : chr [1:51] "Alabama" "Alaska" "Arizona" "Arkansas" ...
+    ##  $ abbreviation: chr [1:51] "AL" "AK" "AZ" "AR" ...
+    ##  $ area        : num [1:51] 52420 665384 113990 53179 163695 ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   name = col_character(),
+    ##   ..   abbreviation = col_character(),
+    ##   ..   area = col_double()
+    ##   .. )
 
 #### Denny’s data
 
 | Variable    | Type | Brief description                 |
 |-------------|------|-----------------------------------|
-| `address`   |      | street address of dennys location |
-| `city`      |      | city of dennys location           |
-| `state`     |      | state of dennys location          |
-| `zip`       |      | zip code of dennys location       |
-| `longitude` |      | east-west position on Earth       |
-| `latitude`  |      | north-south position on Earth     |
+| `address`   | chr  | street address of dennys location |
+| `city`      | chr  | city of dennys location           |
+| `state`     | chr  | state of dennys location          |
+| `zip`       | chr  | zip code of dennys location       |
+| `longitude` | num  | east-west position on Earth       |
+| `latitude`  | num  | north-south position on Earth     |
 
 #### La Quinta’s data
 
 | Variable    | Type | Brief description                   |
 |-------------|------|-------------------------------------|
-| `address`   |      | street address of laquinta location |
-| `city`      |      | city of laquinta location           |
-| `state`     |      | state of laquinta location          |
-| `zip`       |      | zip code of laquinta location       |
-| `longitude` |      | east-west position on Earth         |
-| `latitude`  |      | north-south position on Earth       |
+| `address`   | chr  | street address of laquinta location |
+| `city`      | chr  | city of laquinta location           |
+| `state`     | chr  | state of laquinta location          |
+| `zip`       | chr  | zip code of laquinta location       |
+| `longitude` | num  | east-west position on Earth         |
+| `latitude`  | num  | north-south position on Earth       |
 
 #### States data
 
 | Variable       | Type | Brief description             |
 |----------------|------|-------------------------------|
-| `name`         |      | state name                    |
-| `abbreviation` |      | state abbreviation            |
-| `area`         |      | area in thousand square miles |
+| `name`         | chr  | state name                    |
+| `abbreviation` | chr  | state abbreviation            |
+| `area`         | num  | area in thousand square miles |
 
 ![](README-img/noun_pause.png) **Planned Pause Point**: If you have any
 questions, contact your instructor. Otherwise feel free to continue on.
@@ -113,12 +162,18 @@ about Denny’s?
 
 **Response**:
 
+Looking at the websites there are no Denny’s outside of the United
+States and there are La Quinta’s outside of the United States.
+
 If we wanted to do this using the datasets, would we need to ? Don’t
 worry about implementing this yet, you only need to brainstorm some
 ideas. Include at least one idea as your answer, but you are welcome to
 write down a few options too.
 
 **Response**:
+
+We would need to join the datasets and isolate the variables of interest
+(addresses).
 
 ### Preparing to Join
 
@@ -130,15 +185,40 @@ state is *not in* `states$abbreviation`. Do not assign this to anything;
 we only want to see if we need to be aware of non-US cases. If there are
 any non-US locations, specify where these are.
 
+``` r
+dennys %>%
+  filter(!state %in% states$abbreviation)
+```
+
+    ## # A tibble: 0 x 6
+    ## # … with 6 variables: address <chr>, city <chr>, state <chr>, zip <chr>,
+    ## #   longitude <dbl>, latitude <dbl>
+
 **Response**:
+
+According to the data there are no Denny’s outside of the United States
+that we must worry about.
 
 Now do this again, but using `anti_join`. To do so, take the Denny’s
 locations and anti-join this with the states dataset. Remember to
 specify your `by` columns.
 
+``` r
+dennys %>%
+  # I added this renaming step because
+  # I could not find a way to antijoin
+  # without 2 variables of same name
+  rename(abbreviation = state)%>%
+  anti_join(states, by = "abbreviation")
+```
+
+    ## # A tibble: 0 x 6
+    ## # … with 6 variables: address <chr>, city <chr>, abbreviation <chr>, zip <chr>,
+    ## #   longitude <dbl>, latitude <dbl>
+
 #### Brief Aside
 
-Another way to do this would be to create a new variable (called, says,
+Another way to do this would be to create a new variable (called, say,
 `country`), then filter on this new variable. Remember that `mutate`
 creates new variables. Then `dplyr::case_when` function is a nice way to
 do multiple if-else statements. For example, your instructor could see
@@ -153,7 +233,20 @@ dennys %>%
     )
 ```
 
-    ## Error in dennys %>% mutate(bradford_lived = case_when(state %in% c("MI", : could not find function "%>%"
+    ## # A tibble: 1,643 x 7
+    ##    address             city        state zip   longitude latitude bradford_lived
+    ##    <chr>               <chr>       <chr> <chr>     <dbl>    <dbl> <chr>         
+    ##  1 2900 Denali         Anchorage   AK    99503    -150.      61.2 No            
+    ##  2 3850 Debarr Road    Anchorage   AK    99508    -150.      61.2 No            
+    ##  3 1929 Airport Way    Fairbanks   AK    99701    -148.      64.8 No            
+    ##  4 230 Connector Dr    Auburn      AL    36849     -85.5     32.6 No            
+    ##  5 224 Daniel Payne D… Birmingham  AL    35207     -86.8     33.6 No            
+    ##  6 900 16th St S, Com… Birmingham  AL    35294     -86.8     33.5 No            
+    ##  7 5931 Alabama Highw… Cullman     AL    35056     -86.9     34.2 No            
+    ##  8 2190 Ross Clark Ci… Dothan      AL    36301     -85.4     31.2 No            
+    ##  9 900 Tyson Rd        Hope Hull … AL    36043     -86.4     32.2 No            
+    ## 10 4874 University Dr… Huntsville  AL    35816     -86.7     34.7 No            
+    ## # … with 1,633 more rows
 
 `case_when` looks to see if any of the `dennys$state`s are in the vector
 of state abbreviations that I have lived (i.e.,
@@ -180,7 +273,20 @@ dennys %>%
   filter(country != "Other")
 ```
 
-    ## Error in dennys %>% mutate(country = case_when(state %in% states$abbreviation ~ : could not find function "%>%"
+    ## # A tibble: 1,643 x 7
+    ##    address                city         state zip   longitude latitude country   
+    ##    <chr>                  <chr>        <chr> <chr>     <dbl>    <dbl> <chr>     
+    ##  1 2900 Denali            Anchorage    AK    99503    -150.      61.2 United St…
+    ##  2 3850 Debarr Road       Anchorage    AK    99508    -150.      61.2 United St…
+    ##  3 1929 Airport Way       Fairbanks    AK    99701    -148.      64.8 United St…
+    ##  4 230 Connector Dr       Auburn       AL    36849     -85.5     32.6 United St…
+    ##  5 224 Daniel Payne Driv… Birmingham   AL    35207     -86.8     33.6 United St…
+    ##  6 900 16th St S, Common… Birmingham   AL    35294     -86.8     33.5 United St…
+    ##  7 5931 Alabama Highway,… Cullman      AL    35056     -86.9     34.2 United St…
+    ##  8 2190 Ross Clark Circle Dothan       AL    36301     -85.4     31.2 United St…
+    ##  9 900 Tyson Rd           Hope Hull (… AL    36043     -86.4     32.2 United St…
+    ## 10 4874 University Drive  Huntsville   AL    35816     -86.7     34.7 United St…
+    ## # … with 1,633 more rows
 
 ![](README-img/noun_pause.png) **Planned Pause Point**: If you have any
 questions, contact your instructor. Otherwise feel free to continue on.
@@ -188,6 +294,33 @@ questions, contact your instructor. Otherwise feel free to continue on.
 #### La Quinta
 
 Determine if La Quinta has any locations that are outside of the US.
+
+``` r
+laquinta %>%
+  # I added this renaming step because
+  # I could not find a way to antijoin
+  # without 2 variables of same name
+  rename(abbreviation = state)%>%
+  anti_join(states, by = "abbreviation")
+```
+
+    ## # A tibble: 14 x 6
+    ##    address                 city            abbreviation zip   longitude latitude
+    ##    <chr>                   <chr>           <chr>        <chr>     <dbl>    <dbl>
+    ##  1 Carretera Panamericana… "\nAguascalien… AG           20345    -102.     21.8 
+    ##  2 Av. Tulum Mza. 14 S.M.… "\nCancun"      QR           77500     -86.8    21.2 
+    ##  3 Ejercito Nacional 8211  "Col\nPartido … CH           32528    -106.     31.7 
+    ##  4 Blvd. Aeropuerto 4001   "Parque Indust… NL           66600    -100.     25.8 
+    ##  5 Carrera 38 # 26-13 Ave… "\nMedellin Co… ANT          0500…     -75.6     6.22
+    ##  6 AV. PINO SUAREZ No. 10… "Col. Centro\n… NL           64000    -100.     25.7 
+    ##  7 Av. Fidel Velazquez #3… "\nMonterrey"   NL           64190    -100.     25.7 
+    ##  8 63 King Street East     "\nOshawa"      ON           L1H1…     -78.9    43.9 
+    ##  9 Calle Las Torres-1 Col… "\nPoza Rica"   VE           93210     -97.4    20.6 
+    ## 10 Blvd. Audi N. 3 Ciudad… "\nSan Jose Ch… PU           75010     -97.8    19.2 
+    ## 11 Ave. Zeta del Cochero … "Col. ReservaT… PU           72810     -98.2    19.0 
+    ## 12 Av. Benito Juarez 1230… "\nSan Luis Po… SL           78399    -101.     22.1 
+    ## 13 Blvd. Fuerza Armadas    "contiguo Mall… FM           11101     -87.2    14.1 
+    ## 14 8640 Alexandra Rd       "\nRichmond"    BC           V6X1…    -123.     49.2
 
 #### Isolating US locations
 
@@ -197,21 +330,85 @@ we do not need to worry about updating this object, but you do need to
 do some work on the `laquinta` data. Create a new object called
 `laquinta_us` that only contains the locations inside the US.
 
+``` r
+laquinta_US <- laquinta %>%
+  rename(abbreviation = state)%>%
+  semi_join(states, by = "abbreviation")
+```
+
 ### Fewest locations
 
 Let’s test some of our data summary skills.
 
 Which US state(s) has/ve the fewest Denny’s location?
 
+``` r
+dennys %>%
+  group_by(state) %>%
+  summarize(
+    n_dennys = n()
+  ) %>%
+  arrange(n_dennys)
+```
+
+    ## # A tibble: 51 x 2
+    ##    state n_dennys
+    ##    <chr>    <int>
+    ##  1 DE           1
+    ##  2 DC           2
+    ##  3 VT           2
+    ##  4 AK           3
+    ##  5 IA           3
+    ##  6 NH           3
+    ##  7 SD           3
+    ##  8 WV           3
+    ##  9 LA           4
+    ## 10 MT           4
+    ## # … with 41 more rows
+
 **Response**:
+
+After data summarization of the dennys data, the state with the fewest
+Denny’s is Delaware.
 
 Which US state(s) has/ve the fewest La Quinta locations?
 
+``` r
+laquinta_US %>%
+  group_by(abbreviation) %>%
+  summarize(
+    n_laquinta = n()
+  ) %>%
+  arrange(n_laquinta)
+```
+
+    ## # A tibble: 48 x 2
+    ##    abbreviation n_laquinta
+    ##    <chr>             <int>
+    ##  1 ME                    1
+    ##  2 AK                    2
+    ##  3 NH                    2
+    ##  4 RI                    2
+    ##  5 SD                    2
+    ##  6 VT                    2
+    ##  7 WV                    3
+    ##  8 WY                    3
+    ##  9 IA                    4
+    ## 10 MI                    4
+    ## # … with 38 more rows
+
 **Response**:
+
+After data summarization of the laquinta\_us data, the state with the
+fewest La Quinta’s is Maine.
 
 Is this surprising to you? Why or why not?
 
 **Response**:
+
+Not necessarily, La Quinta seems to be a much more popular hotel in the
+center to southern parts of the United States, and Maine is very far
+North.
 
 ### Locations per thousand square miles
 
@@ -232,16 +429,75 @@ each company’s tibble with the information in the `states` tibble.
 3.  *Then*, calculate the number of Denny’s locations *per* thousand
     square miles.
 
+``` r
+dennys %>%
+  group_by(state) %>%
+  summarize(
+    n_dennys = n()
+  ) %>%
+  rename(abbreviation = state) %>%
+  inner_join(states, by = "abbreviation")%>%
+  mutate(dennys_1k = n_dennys / (area/1000))
+```
+
+    ## # A tibble: 51 x 5
+    ##    abbreviation n_dennys name                     area dennys_1k
+    ##    <chr>           <int> <chr>                   <dbl>     <dbl>
+    ##  1 AK                  3 Alaska               665384.    0.00451
+    ##  2 AL                  7 Alabama               52420.    0.134  
+    ##  3 AR                  9 Arkansas              53179.    0.169  
+    ##  4 AZ                 83 Arizona              113990.    0.728  
+    ##  5 CA                403 California           163695.    2.46   
+    ##  6 CO                 29 Colorado             104094.    0.279  
+    ##  7 CT                 12 Connecticut            5543.    2.16   
+    ##  8 DC                  2 District of Columbia     68.3  29.3    
+    ##  9 DE                  1 Delaware               2489.    0.402  
+    ## 10 FL                140 Florida               65758.    2.13   
+    ## # … with 41 more rows
+
 Which states have the most Denny’s locations per thousand square miles?
 
 **Response**:
+
+the top 5 states with the most Denny’s locations per thousand square
+miles are District of Colombia, Rhode Island, Florida, Maryland, and New
+Jersey, respectively.
 
 #### La Quinta
 
 Similarly as we previously did for Denny’s, calculate the number of La
 Quinta locations *per* thousand square miles.
 
+``` r
+laquinta_US %>%
+  group_by(abbreviation) %>%
+  summarize(
+    n_laquinta = n()
+  ) %>%
+  inner_join(states, by = "abbreviation")%>%
+  mutate(laquinta_1k = n_laquinta / (area/1000))
+```
+
+    ## # A tibble: 48 x 5
+    ##    abbreviation n_laquinta name           area laquinta_1k
+    ##    <chr>             <int> <chr>         <dbl>       <dbl>
+    ##  1 AK                    2 Alaska      665384.     0.00301
+    ##  2 AL                   16 Alabama      52420.     0.305  
+    ##  3 AR                   13 Arkansas     53179.     0.244  
+    ##  4 AZ                   18 Arizona     113990.     0.158  
+    ##  5 CA                   56 California  163695.     0.342  
+    ##  6 CO                   27 Colorado    104094.     0.259  
+    ##  7 CT                    6 Connecticut   5543.     1.08   
+    ##  8 FL                   74 Florida      65758.     1.13   
+    ##  9 GA                   41 Georgia      59425.     0.690  
+    ## 10 IA                    4 Iowa         56273.     0.0711 
+    ## # … with 38 more rows
+
 **Response**:
+
+The top 5 states with the most La Quinta locations per thousand miles
+are Rhode Island, Florida, Connecticut, Maryland, and Texas,
+respectively.
 
 ![](README-img/noun_pause.png) **Planned Pause Point**: If you have any
 questions, contact your instructor. Otherwise feel free to continue on.
@@ -262,10 +518,15 @@ them at the same address?
 
 **Response**:
 
+Joining at the same address would exclude crucial data for our analysis.
+
 If we were able to use a mutating join, what would this output would
 look like? Why would this not be helpful?
 
 **Response**:
+
+The resulting dataset would not add all of the locations that we would
+like to see, this could affect results
 
 You were already shown these top-notch animations from [Garrick
 Aden-Blue](https://www.garrickadenbuie.com/project/tidyexplain/). Again,
@@ -278,24 +539,32 @@ company each location belongs to.
 ``` r
 pre_join_dennys <- dennys %>% 
   mutate(establishment = "Denny's")
-```
 
-    ## Error in dennys %>% mutate(establishment = "Denny's"): could not find function "%>%"
-
-``` r
-pre_join_laquinta_us <- laquinta_us %>% 
+pre_join_laquinta_us <- laquinta_US %>% 
   mutate(establishment = "La Quinta")
 ```
-
-    ## Error in laquinta_us %>% mutate(establishment = "La Quinta"): could not find function "%>%"
 
 Now, stack these two `pre_join_*` tibbles on top of each other. After
 you have verified the stacking worked, assign the resulting object to
 `dennys_laquinta`.
 
+``` r
+dennys_laquinta <- pre_join_dennys %>%
+  bind_rows(pre_join_laquinta_us)
+```
+
 We can plot the locations of the two establishments using a scatter plot
 and color the points by the establishment type. Note that longitude
 should be plotted on the *x*-axis and latitude on the *y*-axis.
+
+``` r
+ggplot(data = dennys_laquinta, 
+       mapping = aes(x = longitude, y = latitude,
+                     color = establishment)) + 
+  geom_jitter()
+```
+
+![](activity07-joins_files/figure-gfm/dennys_laquinta_plot-1.png)<!-- -->
 
 **Response**:
 
